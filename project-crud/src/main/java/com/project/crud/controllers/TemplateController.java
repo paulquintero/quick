@@ -1,4 +1,4 @@
-package com.project.crud.controller;
+package com.project.crud.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
