@@ -1,0 +1,8 @@
+
+  public :typeResponse findAll() {
+    log.debug("Find all");
+    return this.:repositoryName.findAll();
+  }
+
+
+  
