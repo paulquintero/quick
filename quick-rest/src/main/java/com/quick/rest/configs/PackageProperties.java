@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * Package configuration Properties
  *
  * @author Paul Quintero
- * @enterprise Quick
  * @since 18/10/2022
  */
 @Data
