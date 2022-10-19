@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 public class PackageProperties {
+    @Value("{spring.application.name}")
+    private String projectName;
     @Value("${quick.api.parent.basePackage}")
     private String basePackage;
     @Value("${quick.api.package.controller}")
