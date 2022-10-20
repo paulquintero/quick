@@ -9,6 +9,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.nio.file.Paths;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,13 +25,15 @@ class QuickRestApplicationTests {
 		MockitoAnnotations.initMocks(this);
 	}
 	@Test
-	void contextLoads() throws IOException {
-		fileGenerator.readFile("templateExample.txt");
-		String userDirectory = Paths.get("")
-				.toAbsolutePath()
-				.toString();
-		assertTrue(userDirectory.endsWith(CURRENT_DIR));
-		assertTrue(true);
+	void readFileSucces() throws IOException {
+		String result = fileGenerator.readFile("controller.template");
+		assertNotNull(result);
+	}
+
+	@Test
+	void readFileError() throws IOException {
+		String result = fileGenerator.readFile("entity.template");
+		assertNotNull(result);
 	}
 
 }

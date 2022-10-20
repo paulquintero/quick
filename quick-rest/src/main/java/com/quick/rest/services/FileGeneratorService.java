@@ -1,6 +1,7 @@
 package com.quick.rest.services;
 
 
+import com.quick.rest.constants.FileConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -23,7 +24,7 @@ public class FileGeneratorService  implements IFileGeneratorService {
   
     @Override
     public String readFile(String fileName) throws IOException {
-        Resource resource = new ClassPathResource("/templates/"+fileName);
+        Resource resource = new ClassPathResource("/templates/"+ FileConstants.DIR_CONTROLLER +"/" +fileName);
         File file = resource.getFile();
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
