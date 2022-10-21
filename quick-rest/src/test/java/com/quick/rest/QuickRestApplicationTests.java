@@ -8,12 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class QuickRestApplicationTests {
 
-	@BeforeEach
-	public void initMocks() {
-		MockitoAnnotations.initMocks(this);
-	}
-	@Test
-	void contextLoads() {
-	}
+    @BeforeEach
+    public void initMocks() {
+        MockitoAnnotations.openMocks(this);
+    }
 
+    @Test
+    void contextLoads() {
+    }
 }

@@ -1,7 +1,10 @@
 package com.quick.rest.iservices;
 
+import com.quick.rest.enums.TemplatesEnum;
+
+import java.io.File;
 import java.io.IOException;
 
 public interface IFileGeneratorService {
-    String readFile(String templateName) throws IOException;
+    File readFile(TemplatesEnum template) throws IOException;
 }

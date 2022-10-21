@@ -17,7 +17,7 @@ public class TemplateController {
 	
 	@GetMapping
 	public ResponseEntity<String> readTemplate(){
-		fileGenerator.readFile();
+
 		return ResponseEntity.ok("Lectura correcta");
 	}
 }

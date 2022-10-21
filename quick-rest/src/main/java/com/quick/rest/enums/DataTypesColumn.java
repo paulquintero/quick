@@ -12,7 +12,7 @@ public enum DataTypesColumn {
         this.type = type;
     }
 
-    public String getUrl() {
+    public String getType() {
         return this.type;
     }
 

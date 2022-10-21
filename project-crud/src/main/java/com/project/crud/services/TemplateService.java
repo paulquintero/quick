@@ -15,7 +15,6 @@ public class TemplateService {
 
 	public void readFile() {
 		log.debug("entrando al metodo TemplateService");
-		fileGeneratorService.readFile();
 	}
 	
 }

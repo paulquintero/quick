@@ -1,6 +1,10 @@
 package com.quick.rest.services;
 
 
+import com.quick.rest.constants.ExceptionsConstants;
+import com.quick.rest.constants.FileConstants;
+import com.quick.rest.enums.TemplatesEnum;
+import com.quick.rest.exceptions.FileGeneratorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,27 +26,22 @@ public class FileGeneratorService implements IFileGeneratorService {
     PackageProperties packageProperties;
 
     @Override
-    public String readFile(String templateName) throws IOException {
-        Resource resource = new ClassPathResource("/templates/" + templateName);
-        File file = resource.getFile();
-        FileReader fileReader = null;
-        BufferedReader bufferedReader = null;
-        String contenido = null;
-        try {
-            fileReader = new FileReader(file);
-            bufferedReader = new BufferedReader(fileReader);
-            StringBuilder stringBuilder = new StringBuilder("");
-            String linea;
-            while ((linea = bufferedReader.readLine()) != null) {
-                // Lee línea por línea, omitiendo los saltos de línea
-                stringBuilder.append(linea + "\n");
-            }
-            contenido = stringBuilder.toString();
-        } catch (IOException e) {
-            log.error("Excepción leyendo archivo: " + e.getMessage());
-        } finally {
-            bufferedReader.close();
+    public File readFile(TemplatesEnum template) throws FileGeneratorException {
+        StringBuilder dirTemplate = FileConstants.getDirTemplate(template);
+        if (dirTemplate == null) {
+            throw new FileGeneratorException(ExceptionsConstants.TEMPLATE_NOT_VALID);
         }
-        return contenido;
+        dirTemplate.append(template.getUrl());
+        File file = null;
+        try {
+            Resource resource = new ClassPathResource(dirTemplate.toString());
+            file = resource.getFile();
+        } catch (IOException e) {
+            log.error("Exception trying to read template {} ", e);
+            throw new FileGeneratorException(ExceptionsConstants.TEMPLATE_NOT_FOUND);
+        }
+        return file;
     }
+
+
 }
