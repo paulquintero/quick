@@ -2,6 +2,8 @@ package com.quick.rest.services;
 
 
 import com.quick.rest.constants.FileConstants;
+import com.quick.rest.enums.TemplatesEnum;
+import com.quick.rest.utilities.FileUtilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -21,12 +23,13 @@ public class FileGeneratorService  implements IFileGeneratorService {
   
     @Autowired
     PackageProperties packageProperties;
+
   
     @Override
     public String readFile(String fileName) throws IOException {
         Resource resource = new ClassPathResource("/templates/"+ FileConstants.DIR_CONTROLLER +"/" +fileName);
         File file = resource.getFile();
-        FileReader fileReader = null;
+        FileReader fileReader;
         BufferedReader bufferedReader = null;
         String contenido = null;
         try {
@@ -48,6 +51,21 @@ public class FileGeneratorService  implements IFileGeneratorService {
     }
 
     public String writeFile(){
+        return null;
+    }
+
+
+    public String saveFile(File file, TemplatesEnum enumFiles){
+
+        //reemplazar los puntos por comas
+
+        StringBuilder pathFile = new StringBuilder(FileUtilities.replaceCharacters(packageProperties.getBasePackage(), FileUtilities.DOT, FileUtilities.COMMA));
+        pathFile.append(FileUtilities.replaceCharacters(enumFiles.getUrl(), ".template", ""));
+        pathFile.append(file);
+
+        //Validar si existe el archivo
+        //existFile= FileUtilities.validateifExist(file, pathFile);
+        log.info(String.valueOf(pathFile));
         return null;
     }
 }
