@@ -18,8 +18,9 @@ public class TemplateController {
 	@Autowired
 	private IFileGeneratorService fileGenerator;
 	
-	@GetMapping("/{fileName}")
-	public ResponseEntity<String> readTemplate(@PathVariable("fileName") String fileName) throws IOException {
-		return ResponseEntity.ok(fileGenerator.readFile(fileName));
+	@GetMapping
+	public ResponseEntity<String> readTemplate(){
+
+		return ResponseEntity.ok("Lectura correcta");
 	}
 }

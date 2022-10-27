@@ -21,7 +21,6 @@ public class TemplateService {
 	public void readFile(String fileName) throws IOException {
 		
 		log.debug("entrando al metodo TemplateService");
-		fileGeneratorService.readFile(fileName);
 	}
 	
 }
