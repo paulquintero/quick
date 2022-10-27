@@ -9,13 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.lang.reflect.Field;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 public class FileGeneratorServiceTests {
@@ -45,5 +47,26 @@ public class FileGeneratorServiceTests {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    void saveFile_Success() throws IOException {
+        File myObj = new File("TemplateController.java");
+        try{
+            if (myObj.createNewFile()) {
+                System.out.println("File is created!");
+            } else {
+                System.out.println("File is already existed!");
+            }
+        } catch (Exception e){
+
+        }
+        Mockito.when(this.packageProperties.getBasePackage()).thenReturn("com.quick.rest");
+        Mockito.when(this.packageProperties.getProjectName()).thenReturn("quick-rest");
+        Mockito.when(this.packageProperties.getController()).thenReturn("controllers");
+        String myobj2 = fileGeneratorService.saveFile(myObj, TemplatesEnum.CONTROLLER);
+        assertNotNull(myobj2);
+        assertTrue(this.fileGeneratorService.deleteFile(myobj2));
+
     }
 }

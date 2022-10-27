@@ -14,11 +14,13 @@ import org.springframework.stereotype.Service;
 import com.quick.rest.configs.PackageProperties;
 import com.quick.rest.iservices.IFileGeneratorService;
 
-import javax.naming.Context;
 import javax.servlet.ServletContext;
 import java.io.File;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 
 @Service("fileGenerator")
@@ -29,6 +31,10 @@ public class FileGeneratorService implements IFileGeneratorService {
     private PackageProperties packageProperties;
     @Autowired
     private ServletContext context;
+
+    private String getMainDir() {
+        return "src" + File.separator + "main" + File.separator + "java";
+    }
 
     @Override
     public File readFile(TemplatesEnum template) throws FileGeneratorException {
@@ -48,35 +54,47 @@ public class FileGeneratorService implements IFileGeneratorService {
         return file;
     }
 
-    public File saveFile(File file, TemplatesEnum enumFiles) throws IOException {
-        boolean ifExist = true;
-        boolean path = true;
-        //reemplazar los puntos por comas
+    @Override
+    public String saveFile(File file, TemplatesEnum enumFiles) {
+        String workingDirectory = System.getProperty("user.dir");
+        String projectDir = workingDirectory.substring(0, workingDirectory.lastIndexOf(File.separator));
+        StringBuilder pathFile = new StringBuilder(projectDir).append(File.separator).append(packageProperties.getProjectName()).append(File.separator);
+        try {
+            pathFile.append(this.getMainDir()).append(File.separator);
+            pathFile.append(FileUtilities.replaceCharacters(packageProperties.getBasePackage(), FileUtilities.DOT, File.separator));
+            pathFile.append(File.separator);
+            pathFile.append(FileUtilities.replaceCharacters(enumFiles.getUrl(), ".template", "") + "s");
 
-        StringBuilder pathFile = new StringBuilder(FileUtilities.replaceCharacters(packageProperties.getBasePackage(), FileUtilities.DOT, FileUtilities.SLASH));
-        pathFile.append(FileUtilities.SLASH);
-        pathFile.append(FileUtilities.replaceCharacters(enumFiles.getUrl(), ".template", ""));
-        pathFile.append(FileUtilities.SLASH);
-        File myObj = new File("filename.txt");
-        if (myObj.createNewFile()) {
-            System.out.println("File created: " + myObj.getName());
-            myObj.getAbsolutePath();
-        } else {
-            System.out.println("File already exists.");
-            myObj.getPath();
-            myObj.getAbsolutePath();
+            String sourceDir = pathFile.toString();
+            File dir = new File(sourceDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            pathFile.append(File.separator);
+            pathFile.append(file.getName());
+            Files.move(file.toPath(), new File(pathFile.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            System.out.println(file.getAbsolutePath());
+        } catch (IOException e) {
+            log.error("Error moving file to {}, error: {}", projectDir.toString(), e);
+        } catch (Exception e) {
+            log.error("Error {}", e);
         }
-        //pathFile.append(file);
-        //String context1 =context.getRealPath(String.valueOf(pathFile));
-        log.info(String.valueOf(context));
-        //path = FileUtilities.validatePath(pathFile.toString());
+        return pathFile.toString();
+    }
 
-        ifExist = FileUtilities.validateifExistFile( file, pathFile.toString());
-
-        //Validar si existe el archivo
-        //existFile= FileUtilities.validateifExist(file, pathFile);
-        log.info(String.valueOf(pathFile));
-        return null;
+    @Override
+    public Boolean deleteFile(String file) {
+        Boolean fileDeletes = false;
+        try {
+            System.out.println(file);
+            Files.deleteIfExists(new File(file).toPath());
+            fileDeletes = true;
+        }catch (IOException e) {
+            log.error("File not found {}", e);
+        }  catch (Exception e) {
+            log.error("Error {}", e);
+        }
+        return fileDeletes;
     }
 
 

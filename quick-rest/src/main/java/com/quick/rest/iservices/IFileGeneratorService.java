@@ -7,4 +7,6 @@ import java.io.IOException;
 
 public interface IFileGeneratorService {
     File readFile(TemplatesEnum template) throws IOException;
+    String saveFile(File file, TemplatesEnum enumFiles);
+    Boolean deleteFile(String file);
 }
