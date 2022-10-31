@@ -1,16 +1,16 @@
-package com.example.demo.models.entities;
+package :package;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+:hasID
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = :tableName)
+@Table(name = ":tableName")
 @Getter
 @Setter
-public class UserEntity {
+public class :entityName {
 
   :propiedad
-  
 }

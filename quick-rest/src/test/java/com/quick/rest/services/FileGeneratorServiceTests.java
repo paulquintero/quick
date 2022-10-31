@@ -64,7 +64,7 @@ public class FileGeneratorServiceTests {
         Mockito.when(this.packageProperties.getBasePackage()).thenReturn("com.quick.rest");
         Mockito.when(this.packageProperties.getProjectName()).thenReturn("quick-rest");
         Mockito.when(this.packageProperties.getController()).thenReturn("controllers");
-        String myobj2 = fileGeneratorService.saveFile(myObj, TemplatesEnum.CONTROLLER);
+        String myobj2 = fileGeneratorService.saveFile(myObj, "PruebaEntity",TemplatesEnum.CONTROLLER);
         assertNotNull(myobj2);
         assertTrue(this.fileGeneratorService.deleteFile(myobj2));
 

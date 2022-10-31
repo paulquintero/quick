@@ -1,25 +1,22 @@
 package com.quick.rest.services;
 
 
+import com.quick.rest.configs.PackageProperties;
 import com.quick.rest.constants.ExceptionsConstants;
 import com.quick.rest.constants.FileConstants;
 import com.quick.rest.enums.TemplatesEnum;
 import com.quick.rest.exceptions.FileGeneratorException;
+import com.quick.rest.iservices.IFileGeneratorService;
 import com.quick.rest.utilities.FileUtilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import com.quick.rest.configs.PackageProperties;
-import com.quick.rest.iservices.IFileGeneratorService;
 
-import javax.servlet.ServletContext;
 import java.io.File;
-
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 
@@ -29,8 +26,6 @@ public class FileGeneratorService implements IFileGeneratorService {
 
     @Autowired
     private PackageProperties packageProperties;
-    @Autowired
-    private ServletContext context;
 
     private String getMainDir() {
         return "src" + File.separator + "main" + File.separator + "java";
@@ -55,15 +50,35 @@ public class FileGeneratorService implements IFileGeneratorService {
     }
 
     @Override
-    public String saveFile(File file, TemplatesEnum enumFiles) {
+    public String saveFile(File file, String name, TemplatesEnum enumFiles) {
         String workingDirectory = System.getProperty("user.dir");
-        String projectDir = workingDirectory.substring(0, workingDirectory.lastIndexOf(File.separator));
+        String projectDir = null;
+        if (workingDirectory.contains(packageProperties.getProjectName())) {
+            projectDir = workingDirectory.substring(0, workingDirectory.lastIndexOf(File.separator));
+        } else {
+            projectDir = workingDirectory;
+        }
         StringBuilder pathFile = new StringBuilder(projectDir).append(File.separator).append(packageProperties.getProjectName()).append(File.separator);
         try {
             pathFile.append(this.getMainDir()).append(File.separator);
             pathFile.append(FileUtilities.replaceCharacters(packageProperties.getBasePackage(), FileUtilities.DOT, File.separator));
             pathFile.append(File.separator);
-            pathFile.append(FileUtilities.replaceCharacters(enumFiles.getUrl(), ".template", "") + "s");
+            switch (enumFiles) {
+                case CONTROLLER:
+                    pathFile.append(packageProperties.getController());
+                    break;
+                case SERVICE:
+                    pathFile.append(packageProperties.getService());
+                    break;
+                case REPOSITORY:
+                    pathFile.append(packageProperties.getRepository());
+                    break;
+                case ENTITY:
+                    pathFile.append(packageProperties.getEntity());
+                    break;
+                default:
+                    break;
+            }
 
             String sourceDir = pathFile.toString();
             File dir = new File(sourceDir);
@@ -71,9 +86,9 @@ public class FileGeneratorService implements IFileGeneratorService {
                 dir.mkdirs();
             }
             pathFile.append(File.separator);
-            pathFile.append(file.getName());
+            pathFile.append(name);
             Files.move(file.toPath(), new File(pathFile.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println(file.getAbsolutePath());
+            this.deleteFile(file.getAbsolutePath());
         } catch (IOException e) {
             log.error("Error moving file to {}, error: {}", projectDir.toString(), e);
         } catch (Exception e) {
@@ -89,9 +104,9 @@ public class FileGeneratorService implements IFileGeneratorService {
             System.out.println(file);
             Files.deleteIfExists(new File(file).toPath());
             fileDeletes = true;
-        }catch (IOException e) {
+        } catch (IOException e) {
             log.error("File not found {}", e);
-        }  catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error {}", e);
         }
         return fileDeletes;

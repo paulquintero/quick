@@ -1,9 +1,8 @@
-package com.example.demo.repositoryies;
+package :package;
 
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-:importEntityName:
+import :importEntityName;
 
-public interface :RepositoryName: extends JpaRepository<:EntityName: , Integer> {
-;
+public interface :RepositoryName extends JpaRepository<:EntityName , :idType> {
+
 }
