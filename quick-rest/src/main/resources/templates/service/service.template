@@ -1,49 +1,58 @@
-package com.example.demo.services;
+package :package;
 
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-:importEntity:
-:importRepository:
+import java.util.List;
+import java.util.Optional;
+import java.text.MessageFormat;
+import :importRepository;
+import :importEntity;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-public class :serviceName: {
+@Slf4j
+public class :serviceName {
 
   @Autowired
-  :repositoryName:
+  private :repositoryType :repositoryName;
 
-  public :typeResponse findAll() {
+  public List<:entityType> findAll() {
     log.debug("Find all");
     return this.:repositoryName.findAll();
   }
 
-  public :entityType: findById(Integer id){
+  public :entityType findById(:idDataType id){
     log.debug("Find by Id");
-    Optional<:entityType:> op:entityType: = this.:repositoryName:.findById(id);
-    return op:entityType:.orElseThrow(() -> new RuntimeException("Not found"));
+    Optional<:entityType> op:entityVar = this.:repositoryName.findById(id);
+    return op:entityVar.orElseThrow(() -> new RuntimeException("Not found"));
   }
 
-  public :entityType: save(:entityType: :entityTypeParam:){
+  public :entityType save(:entityType :entityVar){
     log.debug("Save");
     try {
-      return this.:repositoryName:.save(:entityTypeParam:);
+      return this.:repositoryName.save(:entityVar);
     } catch (IllegalArgumentException e) {
       log.error(MessageFormat.format("Error produced while saving the information: {0}",e.getMessage()));
       throw e;
     }
   }
 
-  public :entityType: update(Integer id, :entityType: :entityTypeParam:) throws  RuntimeException, IllegalArgumentException {
-    :entityType: :entityName: = this.findById(id);
-    :entityTypeParam:.setId(id);
-    return this.save(:entityTypeParam:);
+  public :entityType update(:idDataType id, :entityType :entityVar) {
+        log.debug("update");
+      try {
+        :entityVar.setId(id);
+        return this.save(:entityVar);
+      } catch (IllegalArgumentException e) {
+        log.error(MessageFormat.format("Error produced while saving the information: {0}",e.getMessage()));
+        throw e;
+      }
   }
 
-  public void delete(Integer id){
-    log.debug("Update");
-    :entityType: :entityName: = this.findById(id);
-    this.:repositoryName:.delete(userEntity);
+  public void delete(:idDataType id){
+    log.debug("delete");
+    :entityType :entityVar = this.findById(id);
+    this.:repositoryName.delete(:entityVar);
   }
 
 }
