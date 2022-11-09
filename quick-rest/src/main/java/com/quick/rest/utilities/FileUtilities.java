@@ -1,17 +1,14 @@
 package com.quick.rest.utilities;
 
-import com.quick.rest.constants.FileConstants;
-import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Slf4j
+
 public abstract class FileUtilities {
     public static String DOT = ".";
     public static String COMMA = ",";
@@ -22,9 +19,7 @@ public abstract class FileUtilities {
         File directorio = new File(dirFile);
         if (!directorio.exists()) {
             if (directorio.mkdirs()) {
-                log.info("el directorio fue creado");
             } else {
-                log.info("Error al crear directorio");
                 return false;
             }
         }
@@ -56,4 +51,16 @@ public abstract class FileUtilities {
         return setence.substring(0, 1).toUpperCase() + setence.substring(1);
     }
 
+    public static List<String> findPaths(String evaluatePath) throws IOException {
+        List<String> result = null;
+        File directory = new File(evaluatePath);
+        try {
+            List<File> list = Arrays.asList(directory.listFiles());
+            result = list.stream().map(File::getName).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw e;
+        }
+
+        return result;
+    }
 }
