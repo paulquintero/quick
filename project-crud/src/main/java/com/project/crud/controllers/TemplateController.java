@@ -1,7 +1,6 @@
 package com.project.crud.controllers;
 
-import com.quick.rest.models.request.EntityTemplateDTO;
-import com.quick.rest.models.request.RepositoryTemplateDTO;
+import com.quick.rest.models.request.*;
 import com.quick.rest.models.response.QuickApiResponse;
 import com.quick.rest.services.QuickApiGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +41,36 @@ public class TemplateController {
 		return ResponseEntity.ok(quickResponse);
 	}
 
+	@PostMapping(value = "service", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<QuickApiResponse> generateService(@RequestBody BusinessTemplateDTO businessTemplateDTO){
+		QuickApiResponse quickResponse = new QuickApiResponse();
+		if(this.quickApiGeneratorService.generateService(businessTemplateDTO)) {
+			quickResponse.setMessageResponse("Success");
+		} else {
+			quickResponse.setMessageResponse("Fail");
+		}
+		return ResponseEntity.ok(quickResponse);
+	}
+
+	@PostMapping(value = "controller", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<QuickApiResponse> generateController(@RequestBody ControllerTemplateDTO controllerTemplateDTO){
+		QuickApiResponse quickResponse = new QuickApiResponse();
+		if(this.quickApiGeneratorService.generateController(controllerTemplateDTO)) {
+			quickResponse.setMessageResponse("Success");
+		} else {
+			quickResponse.setMessageResponse("Fail");
+		}
+		return ResponseEntity.ok(quickResponse);
+	}
+
+	@PostMapping(value = "full-path", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<QuickApiResponse> generateFull(@RequestBody FullBodyDTO fullBodyDTO){
+		QuickApiResponse quickResponse = new QuickApiResponse();
+		if(this.quickApiGeneratorService.generateFull(fullBodyDTO)) {
+			quickResponse.setMessageResponse("Success");
+		} else {
+			quickResponse.setMessageResponse("Fail");
+		}
+		return ResponseEntity.ok(quickResponse);
+	}
 }

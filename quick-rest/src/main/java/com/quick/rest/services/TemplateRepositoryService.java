@@ -15,9 +15,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 
-@Service("TemplateRepositoryService")
+@Service("templateRepositoryService")
 @Slf4j
 public class TemplateRepositoryService implements ITemplateRepositoryService {
 
@@ -27,9 +28,6 @@ public class TemplateRepositoryService implements ITemplateRepositoryService {
     protected static String PACKAGE_NAME_TEMPLATE = ":package";
     protected static String ID_TYPE_TEMPLATE = ":idType";
 
-
-
-    private static String REPOSITORY_NAME = "Entity";
     private static String JAVA_FILE = ".java";
     private static String DOT = ".";
     private static String REPOSITORY = "Repository";
@@ -55,7 +53,7 @@ public class TemplateRepositoryService implements ITemplateRepositoryService {
         try {
             File file = this.fileGenerator.readFile(TemplatesEnum.REPOSITORY);
             StringBuilder template = this.createTemplate(file, repositoryTemplateDTO);
-            String repositoryName = I_INTERFACE + FileUtilities.capitalize(this.addRepositorySuffix(repositoryTemplateDTO.getRepositoryName()));
+            String repositoryName = FileUtilities.addRepositorySuffix(repositoryTemplateDTO.getRepositoryName());
             File tempFile = FileUtilities.createTempFile(repositoryName, JAVA_FILE, template.toString().getBytes(StandardCharsets.UTF_8));
             String isCreated = this.fileGenerator.saveFile(tempFile, repositoryName + JAVA_FILE, TemplatesEnum.REPOSITORY);
             generated = Boolean.TRUE;
@@ -103,12 +101,4 @@ public class TemplateRepositoryService implements ITemplateRepositoryService {
         return template;
     }
 
-    private String addRepositorySuffix(String name){
-        if (!name.contains(REPOSITORY)) {
-            name = name.replace(REPOSITORY_NAME_TEMPLATE, FileUtilities.capitalize(name) + REPOSITORY);
-        } else {
-            name = name.replace(REPOSITORY_NAME_TEMPLATE, FileUtilities.capitalize(name));
-        }
-        return name;
-    }
 }

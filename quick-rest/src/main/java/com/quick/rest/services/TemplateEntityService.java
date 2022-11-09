@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service("TemplateEntityService")
 @Slf4j
@@ -47,7 +48,7 @@ public class TemplateEntityService implements ITemplateEntityService {
         try {
             File file = this.fileGenerator.readFile(TemplatesEnum.ENTITY);
             StringBuilder template = this.createTemplate(file, entityTemplateDTO);
-            String entityName = FileUtilities.capitalize(entityTemplateDTO.getEntityName()) + TemplateEntityService.ENTITY_NAME;
+            String entityName = FileUtilities.addEntitySuffix(entityTemplateDTO.getEntityName());
             File tempFile = FileUtilities.createTempFile(entityName, TemplateEntityService.JAVA_FILE, template.toString().getBytes(StandardCharsets.UTF_8));
             String isCreated = this.fileGenerator.saveFile(tempFile, entityName + TemplateEntityService.JAVA_FILE, TemplatesEnum.ENTITY);
             generated = Boolean.TRUE;
@@ -80,7 +81,7 @@ public class TemplateEntityService implements ITemplateEntityService {
             }
 
             if (linea.contains(TemplateEntityService.ENTITY_NAME_TEMPLATE)) {
-                linea = linea.replace(ENTITY_NAME_TEMPLATE, FileUtilities.capitalize(entityTemplateDTO.getEntityName()) + TemplateEntityService.ENTITY_NAME);
+                linea = linea.replace(ENTITY_NAME_TEMPLATE, FileUtilities.addEntitySuffix(entityTemplateDTO.getEntityName()));
             }
             if (linea.contains(TemplateEntityService.COLUMNS_TEMPLATE)) {
                 for (EntityChildTemplateDTO column : entityTemplateDTO.getColumns()) {
@@ -103,6 +104,8 @@ public class TemplateEntityService implements ITemplateEntityService {
         bufferedReader.close();
         return template;
     }
+
+
 
     private Boolean validateId(EntityTemplateDTO entityTemplateDTO) {
         Optional<EntityChildTemplateDTO> entityChildTemplateDTO = entityTemplateDTO.getColumns().stream().filter(column -> (column.getPrimaryKey() != null && column.getPrimaryKey().equals(Boolean.TRUE))).findFirst();
