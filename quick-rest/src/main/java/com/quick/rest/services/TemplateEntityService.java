@@ -35,7 +35,7 @@ public class TemplateEntityService implements ITemplateEntityService {
     protected static String PRIVATE = "private";
     private static String JAVA_FILE = ".java";
     private static String ENTITY_NAME = "Entity";
-    private static String IMPORT_ID = "import javax.persistence.Id;";
+    private static String IMPORT_ID = "import jakarta.persistence.Id;";
     private static String DOT = ".";
 
     private String getPackage() {
