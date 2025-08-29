@@ -1,0 +1,8 @@
+package :package;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import :importEntityName;
+
+public interface :RepositoryName extends JpaRepository<:EntityName , :idType> {
+
+}

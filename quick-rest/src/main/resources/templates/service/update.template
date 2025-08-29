@@ -1,0 +1,6 @@
+
+  public :entityType: update(Integer id, :entityType: :entityTypeParam:) throws  RuntimeException, IllegalArgumentException {
+    :entityType: :entityName: = this.findById(id);
+    :entityTypeParam:.setId(id);
+    return this.save(:entityTypeParam:);
+  }

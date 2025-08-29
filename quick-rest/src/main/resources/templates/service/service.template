@@ -1,0 +1,58 @@
+package :package;
+
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
+import java.text.MessageFormat;
+import :importRepository;
+import :importEntity;
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class :serviceName {
+
+  @Autowired
+  private :repositoryType :repositoryName;
+
+  public List<:entityType> findAll() {
+    log.debug("Find all");
+    return this.:repositoryName.findAll();
+  }
+
+  public :entityType findById(:idDataType id){
+    log.debug("Find by Id");
+    Optional<:entityType> op:entityVar = this.:repositoryName.findById(id);
+    return op:entityVar.orElseThrow(() -> new RuntimeException("Not found"));
+  }
+
+  public :entityType save(:entityType :entityVar){
+    log.debug("Save");
+    try {
+      return this.:repositoryName.save(:entityVar);
+    } catch (IllegalArgumentException e) {
+      log.error(MessageFormat.format("Error produced while saving the information: {0}",e.getMessage()));
+      throw e;
+    }
+  }
+
+  public :entityType update(:idDataType id, :entityType :entityVar) {
+        log.debug("update");
+      try {
+        :entityVar.setId(id);
+        return this.save(:entityVar);
+      } catch (IllegalArgumentException e) {
+        log.error(MessageFormat.format("Error produced while saving the information: {0}",e.getMessage()));
+        throw e;
+      }
+  }
+
+  public void delete(:idDataType id){
+    log.debug("delete");
+    :entityType :entityVar = this.findById(id);
+    this.:repositoryName.delete(:entityVar);
+  }
+
+}

@@ -1,0 +1,9 @@
+  public :entityType: save(:entityType: :entityTypeParam:){
+    log.debug("Save");
+    try {
+      return this.:repositoryName:.save(:entityTypeParam:);
+    } catch (IllegalArgumentException e) {
+      log.error(MessageFormat.format("Error produced while saving the information: {0}",e.getMessage()));
+      throw e;
+    }
+  }

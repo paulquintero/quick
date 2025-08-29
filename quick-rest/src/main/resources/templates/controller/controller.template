@@ -1,0 +1,44 @@
+package :package;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import :importService;
+import :importEntity;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(path =":endpoint")
+public class :controllerName {
+
+  @Autowired
+  private :serviceType :serviceName;
+
+  @GetMapping
+  public ResponseEntity<List<:entityType>> findAll() {
+    return  ResponseEntity.ok(this.:serviceName.findAll());
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<:entityType> findById(@PathVariable("id") :idDataType id) {
+    return ResponseEntity.ok(this.:serviceName.findById(id));
+  }
+
+  @PostMapping
+  public ResponseEntity<:entityType> save(@RequestBody :entityType :entityVar){
+    return  ResponseEntity.ok(this.:serviceName.save(:entityVar));
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<:entityType> update(@PathVariable("id") :idDataType id, @RequestBody :entityType :entityVar){
+    return  ResponseEntity.ok(this.:serviceName.update(id, :entityVar));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<String> delete(@PathVariable("id") :idDataType id) {
+    this.:serviceName.delete(id);
+    return ResponseEntity.ok("Success");
+  }
+
+}

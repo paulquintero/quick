@@ -1,0 +1,16 @@
+package :package;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+:hasID
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = ":tableName")
+@Getter
+@Setter
+public class :entityName {
+
+  :propiedad
+}

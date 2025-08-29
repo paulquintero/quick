@@ -1,0 +1,6 @@
+  
+  public :entityType: findById(Integer id){
+    log.debug("Find by Id");
+    Optional<:entityType:> op:entityType: = this.:repositoryName:.findById(id);
+    return op:entityType:.orElseThrow(() -> new RuntimeException("Not found"));
+  }
