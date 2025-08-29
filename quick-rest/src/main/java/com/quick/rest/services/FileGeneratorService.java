@@ -102,10 +102,10 @@ public class FileGeneratorService implements IFileGeneratorService {
         Boolean fileDeletes = false;
         try {
             System.out.println(file);
-            Files.deleteIfExists(new File(file).toPath());
+           Files.deleteIfExists(new File(file).toPath());
             fileDeletes = true;
         } catch (IOException e) {
-            log.error("File not found {}", e);
+             log.error("File not found {}", e);
         } catch (Exception e) {
             log.error("Error {}", e);
         }

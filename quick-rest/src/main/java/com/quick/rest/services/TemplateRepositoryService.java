@@ -31,7 +31,6 @@ public class TemplateRepositoryService implements ITemplateRepositoryService {
     private static String JAVA_FILE = ".java";
     private static String DOT = ".";
     private static String REPOSITORY = "Repository";
-    private static String I_INTERFACE = "I";
 
     @Autowired
     private PackageProperties packageProperties;
@@ -81,9 +80,9 @@ public class TemplateRepositoryService implements ITemplateRepositoryService {
 
             if (linea.contains(REPOSITORY_NAME_TEMPLATE)) {
                 if (!repositoryTemplateDTO.getRepositoryName().contains(REPOSITORY)) {
-                    linea = linea.replace(REPOSITORY_NAME_TEMPLATE, I_INTERFACE + FileUtilities.capitalize(repositoryTemplateDTO.getRepositoryName()) + REPOSITORY);
+                    linea = linea.replace(REPOSITORY_NAME_TEMPLATE,  FileUtilities.capitalize(repositoryTemplateDTO.getRepositoryName()) + REPOSITORY);
                 } else {
-                    linea = linea.replace(REPOSITORY_NAME_TEMPLATE, I_INTERFACE + FileUtilities.capitalize(repositoryTemplateDTO.getRepositoryName()));
+                    linea = linea.replace(REPOSITORY_NAME_TEMPLATE,  FileUtilities.capitalize(repositoryTemplateDTO.getRepositoryName()));
                 }
             }
 

@@ -95,9 +95,6 @@ public abstract class FileUtilities {
     }
 
     public static String addRepositorySuffix(String name){
-        if (!Pattern.compile("^II").matcher(name).find() && !Pattern.compile("^.{1}[I]").matcher(name).find()){
-            name = I_INTERFACE + name;
-        }
         if (!name.contains(REPOSITORY)) {
             name = FileUtilities.capitalize(name) + REPOSITORY;
         } else {

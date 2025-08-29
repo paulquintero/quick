@@ -1,30 +1,17 @@
 
-# Quick
+## Uso y ejemplos
 
-Quick is a library that allows you to generate the base classes and files for a CRUD operation in a Spring project.
-
-This means it will generate the necessary classes to have a basic path that includes a Controller, Service, Repository, and its corresponding Entity.
-
-## Deployment
-
-To run this project, you need Java 8 or Java 21, depending on the version downloaded. The develop branch works with Java 8 and the feature/migracion/java21 branch works with Java 21.
-
-
-## Usage/Examples
-
-### Initial Library Configuration
-
-To use the library, you must add the following properties to either your .properties or yml file. These properties are responsible for scanning packages to read and generate the necessary classes. The required properties are listed below:
-
+### configuracion inicial de la libreria
+Para hacer uso de la libreria es necesario agregar las siguientes propiedades ya sea en tu archivo .properties o yml, ya que estas propiedades se encargan de realizar el escaneo de paquetes para la lectura y generacion de las clases necesarias, se listan las propiedades necesarias:
 ```properties
-quick.api.parent.basePackage //corresponds to the project's base package name
-quick.api.package.controller //name of the package where the controllers are located
-quick.api.package.entity //name of the package where the entities are located
-quick.api.package.service //name of the package where the services are located
-quick.api.package.repository //name of the package where the repositories are located
+quick.api.parent.basePackage //corresponde al nombre del package base del proyecto
+quick.api.package.controller //nombre del paquete donde se encuentran los controller
+quick.api.package.entity //nombre del paquete donde se encuentran los entityies
+quick.api.package.service //nombre del paquete donde se encuentran los services
+quick.api.package.repository //nombre del paquete donde se encuentran los repository
 ```
 
-### example
+### ejemplo
 ```properties
 quick.api.parent.basePackage=com.project.crud
 quick.api.package.controller=controllers
@@ -34,13 +21,13 @@ quick.api.package.repository=repositoryies
 
 ```
 
-To use the library, you must import it and create a controller that specifies which files you want to generate. The methods and controller are listed below as examples of what can be included.
+Para poder utilizar la libreria es necesario importarla asi como generan un controller en el cual se especifique cuales los archivos que se desean generar, a continuacion se listan los metodos y controller como ejemplo de cuales pueden ser incluidos.
 
-The controller is currently located in the crud-repository project, with the name TemplateController.
+El controller se encuentra actualmente ubicado en el proyecto crud-repository, con el nombre TemplateController
 
-## Implementation
+## Implementacion
 
-Import the library scan. First, indicate the project's base path, followed by the library "com.quick.rest.*".
+Importar scaneo de la libreria, primero se indica la ruta base del proyecto, seguido de la libreria "com.quick.rest.*"
 
 ### Aplicaction
 ```java
@@ -148,86 +135,4 @@ public class TemplateController {
 }
 
 ```
-
-## API Reference
-
-#### Generate an entity
-
-```http
-  POST quick/template/entity
-```
-
-```json
-{
-  "entityName" : "book", //string type, name of the entity
-  "columns": [{
-      "columnName" : "id", //Name of the column
-      "dataType": "INT", //Data type of the column, data types can be INT("Integer"), INTEGER("Integer"), LONG("Long"), STRING("String"), BOOLEAN("Boolean"), FLOAT("Float"), DOUBLE("Double");
-      "primaryKey": "true" //indicates if this will be the primary key column
-  },
-  {
-      "columnName" : "name",
-      "dataType": "STRING",
-      "primaryKey": "false"
-  }
-  ]
-}
-```
-
-#### Generate a repository by relating it to an existing entity.
-
-```http
-  POST quick/template/repository
-```
-
-```json
-{
-  "repositoryName": "string", //name of the repository
-  "entityName": "string", // name of the existing entity
-  "dataTypeId": "INT" //data type used as the primary key in the entity
-}
-```
-
-
-#### Generate a service and its implementation with an existing repository.
-
-```http
-  POST quick/template/service
-```
-
-```json
-{
-  "serviceName": "string", //name of the service
-  "repositoryName": "string", //name of the existing repository
-  "entityName": "string", //name of the existing entity
-  "idDataType": "INT" //data type used as the primary key in the entity
-}
-```
-
-#### Generate a complete CRUD for an entity, for example a book, with its respective controller, service, repository, and entity
-
-```http
-  POST quick/template/full-path
-```
-
-```json
-{
-  "entityName": "string", //name of the existing entity
-  "columns": [
-      "columns": [{
-        "columnName" : "id", //Name of the column
-        "dataType": "INT", //Data type of the column, data types can be INT("Integer"), INTEGER("Integer"), LONG("Long"), STRING("String"), BOOLEAN("Boolean"), FLOAT("Float"), DOUBLE("Double");
-        "primaryKey": "true" //indicates if this will be the primary key column
-    },
-  ],
-  "pathMapping": "string" //name of the endpoint, for example book
-}
-```
-
-## Swagger
-
-The current version has Swagger implemented, so you can make requests within the same tool, as well as view the endpoints for generating each file.
-```bash
-http://localhost:{port}/api/v1/swagger-ui/index.html#/template-controller
-```
-
+Nota: si quieres conocer como funciona te invito a que eches un vistazo a las entrañas del proyecto en la carpeta quick-rest ;)

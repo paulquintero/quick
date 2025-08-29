@@ -32,9 +32,8 @@ public class QuickApiGeneratorService implements IQuickApiGeneratorService {
         String name = FileUtilities.capitalize(fullBodyDTO.getEntityName().replace("Service", ""));
         String repositoryName = FileUtilities.addRepositorySuffix(name);
         String serviceName = FileUtilities.addServiceSuffix(name);
-        String entityName = FileUtilities.addEntitySuffix(name);
         String controllerName = FileUtilities.addControllerSuffix(name);
-        fullBodyDTO.setEntityName(entityName);
+        fullBodyDTO.setEntityName(name);
         RepositoryTemplateDTO repositoryTemplateDTO = new RepositoryTemplateDTO();
         repositoryTemplateDTO.setRepositoryName(name);
         Optional<EntityChildTemplateDTO> entityChildTemplateDTO =
@@ -45,16 +44,16 @@ public class QuickApiGeneratorService implements IQuickApiGeneratorService {
             primaryKey = entityChildTemplateDTO.get();
         }
         repositoryTemplateDTO.setDataTypeId(primaryKey.getDataType());
-        repositoryTemplateDTO.setEntityName(entityName);
+        repositoryTemplateDTO.setEntityName(name);
         BusinessTemplateDTO businessTemplateDTO = new BusinessTemplateDTO();
         businessTemplateDTO.setRepositoryName(repositoryName);
-        businessTemplateDTO.setEntityName(entityName);
+        businessTemplateDTO.setEntityName(name);
         businessTemplateDTO.setIdDataType(primaryKey.getDataType());
         businessTemplateDTO.setServiceName(serviceName);
         ControllerTemplateDTO controllerTemplateDTO = new ControllerTemplateDTO();
         controllerTemplateDTO.setControllerName(controllerName);
         controllerTemplateDTO.setServiceName(serviceName);
-        controllerTemplateDTO.setEntityName(entityName);
+        controllerTemplateDTO.setEntityName(name);
         controllerTemplateDTO.setIdDataType(primaryKey.getDataType());
         controllerTemplateDTO.setPathMapping(fullBodyDTO.getPathMapping());
         this.generateEntity(fullBodyDTO);

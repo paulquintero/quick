@@ -48,9 +48,8 @@ public class TemplateEntityService implements ITemplateEntityService {
         try {
             File file = this.fileGenerator.readFile(TemplatesEnum.ENTITY);
             StringBuilder template = this.createTemplate(file, entityTemplateDTO);
-            String entityName = FileUtilities.addEntitySuffix(entityTemplateDTO.getEntityName());
-            File tempFile = FileUtilities.createTempFile(entityName, TemplateEntityService.JAVA_FILE, template.toString().getBytes(StandardCharsets.UTF_8));
-            String isCreated = this.fileGenerator.saveFile(tempFile, entityName + TemplateEntityService.JAVA_FILE, TemplatesEnum.ENTITY);
+            File tempFile = FileUtilities.createTempFile(entityTemplateDTO.getEntityName() , TemplateEntityService.JAVA_FILE, template.toString().getBytes(StandardCharsets.UTF_8));
+            String isCreated = this.fileGenerator.saveFile(tempFile, entityTemplateDTO.getEntityName() + TemplateEntityService.JAVA_FILE, TemplatesEnum.ENTITY);
             generated = Boolean.TRUE;
             log.debug("archivo {}", file);
         } catch (IOException e) {
@@ -81,7 +80,7 @@ public class TemplateEntityService implements ITemplateEntityService {
             }
 
             if (linea.contains(TemplateEntityService.ENTITY_NAME_TEMPLATE)) {
-                linea = linea.replace(ENTITY_NAME_TEMPLATE, FileUtilities.addEntitySuffix(entityTemplateDTO.getEntityName()));
+                linea = linea.replace(ENTITY_NAME_TEMPLATE, entityTemplateDTO.getEntityName());
             }
             if (linea.contains(TemplateEntityService.COLUMNS_TEMPLATE)) {
                 for (EntityChildTemplateDTO column : entityTemplateDTO.getColumns()) {

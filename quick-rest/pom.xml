@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.quick.rest</groupId>
 	<artifactId>quick-rest</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<name>quick-rest</name>
 	<description>Project to generate quickly rest apis</description>
 	<properties>
